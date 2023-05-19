@@ -4,15 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.util.Duration;
-
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
 
 public class MainController {
 
@@ -21,15 +13,13 @@ public class MainController {
     private Parser parser;
 
 
-    public MainController(){
+    public MainController(HELBVue vue){
         parser = new Parser();
 
         startTimeline();
 
     }
 
-    //récupère les infos correctement, mais ne prends pas en compte le changement de temps entre chaque Component.
-    //la variable duration ne modifie pas le temps.
     private void startTimeline() {
         Timeline timeline = new Timeline();
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {

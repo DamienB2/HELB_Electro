@@ -5,4 +5,8 @@ module com.example.helb_electro {
 
     opens com.example.helb_electro to javafx.fxml;
     exports com.example.helb_electro;
+    exports com.example.helb_electro.products;
+    opens com.example.helb_electro.products to javafx.fxml;
+    exports com.example.helb_electro.components;
+    opens com.example.helb_electro.components to javafx.fxml;
 }
