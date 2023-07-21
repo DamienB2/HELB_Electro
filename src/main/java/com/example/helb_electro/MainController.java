@@ -1,9 +1,6 @@
 package com.example.helb_electro;
 
-import com.example.helb_electro.components.Battery;
-import com.example.helb_electro.components.Icomponent;
-import com.example.helb_electro.components.Motor;
-import com.example.helb_electro.components.Sensor;
+import com.example.helb_electro.components.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -16,8 +13,6 @@ public class MainController {
 
     private int cpt = 0, cptCycle = 0;
     private int duration;
-
-    private String[] datas;
 
 
     private String componentTime;
@@ -44,12 +39,12 @@ public class MainController {
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                datas = parser.getComponentArray(cpt);
+                String[] datas = parser.getComponentArray(cpt);
                 componentTime = datas[0];
                 duration = Integer.parseInt(componentTime);
 
                 if(duration == cptCycle){
-                    createComponent();
+                    createComponent(datas);
 
                     cptCycle = 0;
                     cpt++;
@@ -62,24 +57,16 @@ public class MainController {
     }
 
 
-    private void createComponent(){
+    private void createComponent(String[] datas){
         //assignation des variables pour avoir un accès plus simple au différentes données
         componentName = datas[1];
         componentSpecification = datas[2];
         componentColor = datas[3];
         componentDefectivePercentage = datas[datas.length-1];
 
-        switch (componentName){
-            case "Moteur":
-                new Motor(componentSpecification, componentDefectivePercentage); //Crée un Moteur avec une puissance et un pourcentage de déféctuosité
-                break;
-            case "Capteur":
-                new Sensor(componentSpecification, componentColor, componentDefectivePercentage); //Crée un Capteur avec une distance, une couleur et un pourcentage de déféctuosité
-                break;
-            case "Batterie":
-                new Battery(componentSpecification, componentDefectivePercentage); //Crée une Batterie avec une taux de remplissage et un pourcentage de déféctuosité
-                break;
-        }
+        Component newComponent = ComponentFactory.getComponent(componentName,componentSpecification,componentColor,componentDefectivePercentage);
+        newComponent.getinfo();
+
 
     }
 }

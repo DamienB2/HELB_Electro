@@ -4,6 +4,7 @@ public class Component implements Icomponent{
 
     public boolean defectiveness;
     public int percentageInt;
+    public String specification;
 
 
     //recoit un string avec le pourcentage depuis le data.txt et le transforme en int
@@ -20,5 +21,9 @@ public class Component implements Icomponent{
         }else{
             return false;
         }
+    }
+
+    @Override
+    public void getinfo() {
     }
 }
