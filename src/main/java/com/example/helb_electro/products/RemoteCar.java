@@ -1,4 +1,4 @@
 package com.example.helb_electro.products;
 
-public class RemoteCar implements Iproduct{
+public class RemoteCar {
 }

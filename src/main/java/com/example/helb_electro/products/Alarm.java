@@ -1,4 +1,4 @@
 package com.example.helb_electro.products;
 
-public class Alarm implements Iproduct{
+public class Alarm {
 }

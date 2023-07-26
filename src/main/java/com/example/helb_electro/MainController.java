@@ -8,11 +8,14 @@ import javafx.event.EventHandler;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
-public class MainController {
+public class MainController implements Observer{
 
     private int cpt = 0, cptCycle = 0;
     private int duration;
+
+    private boolean componentListState = false;
 
 
     private String componentTime;
@@ -22,15 +25,26 @@ public class MainController {
     private String componentDefectivePercentage;
     //pour avoir le pourcentage on utilise la dernière info de la ligne qu'on reçoit car si on définis un emplacement comme pour les autres, la couleur et la déféctuosité seront mélangée
 
-    private static final ArrayList<Icomponent> ComponentList = new ArrayList<>();
+    private static final ArrayList<Component> ComponentList = new ArrayList<>();
     private Parser parser;
+    private HELBVue helbVue;
 
 
     public MainController(HELBVue vue){
+        helbVue = vue;
         parser = new Parser();
 
         startTimeline();
 
+        configAction();
+
+    }
+
+    private void configAction() {
+        //Observer qui permet d'update la liste de composant à droite.
+        helbVue.buttonTest.setOnAction(e ->{
+            System.out.println(ComponentList.size());
+        });
     }
 
     //Start timeline permet de lire ligne par ligne le fichier data. Il stocke ensuite les données dans un tableau de strings qui seront ensuite affichées lorsque le temps reçus est atteint
@@ -39,21 +53,37 @@ public class MainController {
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                String[] datas = parser.getComponentArray(cpt);
-                componentTime = datas[0];
-                duration = Integer.parseInt(componentTime);
 
-                if(duration == cptCycle){
-                    createComponent(datas);
+                componentListState = checkComponentListSize();
 
-                    cptCycle = 0;
-                    cpt++;
+                if(componentListState == false){
+                    String[] datas = parser.getComponentArray(cpt);
+                    componentTime = datas[0];
+                    duration = Integer.parseInt(componentTime);
+
+                    if(duration == cptCycle){
+                        createComponent(datas);
+
+                        cptCycle = 0;
+                        cpt++;
+                    }
+                    cptCycle++;
+                    System.out.println("cycle de comptage");
+                }else{
+                    System.out.println("cycle bloqué");
                 }
-                cptCycle++;
             }
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+    }
+
+    private boolean checkComponentListSize() {
+        if(ComponentList.size() == 8){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 
@@ -65,8 +95,17 @@ public class MainController {
         componentDefectivePercentage = datas[datas.length-1];
 
         Component newComponent = ComponentFactory.getComponent(componentName,componentSpecification,componentColor,componentDefectivePercentage);
-        newComponent.getinfo();
+        addComponentToComponentList(newComponent);
 
+    }
 
+    private void addComponentToComponentList(Component newComponent) {
+        ComponentList.add(newComponent);
+        update();
+    }
+
+    @Override
+    public void update() {
+        helbVue.updateComponentList(ComponentList);
     }
 }
