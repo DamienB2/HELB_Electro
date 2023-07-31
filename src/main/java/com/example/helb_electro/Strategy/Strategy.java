@@ -38,7 +38,7 @@ public class Strategy{
         }
     }
 
-    public Product getProduct(ArrayList<Component> componentsList){
+    public ArrayList<Integer> getProductid(ArrayList<Component> componentsList){
         //trie la liste allProductList pour la ranger en fonction de la stratégie choisie
         strategy.getSortedProductList(allProductList);
 
@@ -46,13 +46,7 @@ public class Strategy{
 
         fillComponentForTheProductList(idOfComponentForTheNewProductList, componentsList);
 
-        for (int id :idOfComponentForTheNewProductList) {
-            System.out.println(id);
-        }
-
-
-
-        return null; // pour le moment, return null pour les test. Devra return un product il me semble
+        return idOfComponentForTheNewProductList;
     }
 
     private void fillComponentForTheProductList(ArrayList<Integer> idOfComponentForTheNewProductList, ArrayList<Component> componentsList) {

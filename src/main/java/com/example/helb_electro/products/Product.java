@@ -12,6 +12,7 @@ public abstract class Product {
     private int[] RGBTab = {0, 0, 0}; //default color value
     private Component component1, component2, component3;
 
+    //Pas optimiser car si nouveau composant pose problème
     public Product(Component component1, Component component2){
         this.component1 = component1;
         this.component2 = component2;
@@ -25,6 +26,7 @@ public abstract class Product {
         this.RGBTab = setRGBColor(component1.getRGBColor(), component2.getRGBColor());
     }
 
+    //utilisation de tableau serait plus utile car lors de 3 composants ne marche pas
     private int[] setRGBColor(int[] rgbColorComponent1, int[] rgbColorComponent2) {
 
         //Additionne les couleurs des 2 composants pour faire la couleur du produit.

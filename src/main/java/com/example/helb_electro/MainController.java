@@ -2,8 +2,6 @@ package com.example.helb_electro;
 
 import com.example.helb_electro.Strategy.Strategy;
 import com.example.helb_electro.components.*;
-import com.example.helb_electro.products.Product;
-import com.example.helb_electro.products.Robot;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -16,8 +14,9 @@ public class MainController implements Observer{
 
     private int cpt = 0, cptCycle = 0;
     private int duration;
-
     private boolean componentListState = false;
+
+    private final int MAX_COMPONANT = 8;
 
 
     private String componentTime;
@@ -72,7 +71,11 @@ public class MainController implements Observer{
                     }
                     cptCycle++;
                     System.out.println("cycle de comptage");
-                    strategy.getProduct(ComponentList);
+                    //retourne une list d'id pour le moment
+                    ArrayList<Integer>testList = strategy.getProductid(ComponentList);
+
+                    //delete les composants de la liste de composant
+                    deleteComponantFromComponentList(testList);
 
                 }else{
                     System.out.println("cycle bloqué");
@@ -84,7 +87,7 @@ public class MainController implements Observer{
     }
 
     private boolean checkComponentListSize() {
-        if(ComponentList.size() == 8){
+        if(ComponentList.size() == MAX_COMPONANT){
             return true;
         }else{
             return false;
@@ -112,5 +115,15 @@ public class MainController implements Observer{
     @Override
     public void update() {
         helbVue.updateComponentList(ComponentList);
+    }
+
+    private void deleteComponantFromComponentList(ArrayList<Integer> testList) {
+        //supprime les composants servant à la création d'un produit de la liste
+        // DOIT ETRE RAJOUTER:
+        //- Création du produit avec les composants avant la suppression
+        //- Remise à zéro du visuel car lorsque les composants sont supprimés de la liste, le visuel ne change pas
+        for (int id: testList) {
+            ComponentList.remove(id);
+        }
     }
 }
