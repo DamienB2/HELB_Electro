@@ -1,6 +1,7 @@
 package com.example.helb_electro;
 
 import com.example.helb_electro.components.Component;
+import com.example.helb_electro.products.Product;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -41,7 +42,7 @@ public final class HELBVue {
     private Scene scene;
 
 
-    public Button buttonTest;
+    public ComboBox comboBox;
 
     public HELBVue(Stage stage){
         this.stage = stage;
@@ -68,7 +69,7 @@ public final class HELBVue {
         label.setAlignment(Pos.CENTER);
         label.setPrefWidth(labelWidth);
 
-        ComboBox comboBox = new ComboBox<>();
+        comboBox = new ComboBox<>();
         comboBox.setPrefWidth(CBWidth);
         comboBox.getItems().add("Temps");
         comboBox.getItems().add("Éco-score");
@@ -76,10 +77,7 @@ public final class HELBVue {
         comboBox.getItems().add("Diversification");
         comboBox.setValue("Temps");
 
-        buttonTest = new Button();
-        buttonTest.setText("TEST");
-
-        vBox = new VBox(10,label, comboBox, buttonTest);
+        vBox = new VBox(10,label, comboBox);
         vBox.setPrefHeight(VboxHeight);
         vBox.setPrefWidth(VboxWidth);
 
@@ -170,5 +168,4 @@ public final class HELBVue {
             cpt++;
         }
     }
-
 }

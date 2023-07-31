@@ -1,6 +1,9 @@
 package com.example.helb_electro;
 
+import com.example.helb_electro.Strategy.Strategy;
 import com.example.helb_electro.components.*;
+import com.example.helb_electro.products.Product;
+import com.example.helb_electro.products.Robot;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -8,7 +11,6 @@ import javafx.event.EventHandler;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 
 public class MainController implements Observer{
 
@@ -28,6 +30,7 @@ public class MainController implements Observer{
     private static final ArrayList<Component> ComponentList = new ArrayList<>();
     private Parser parser;
     private HELBVue helbVue;
+    private Strategy strategy = new Strategy();
 
 
     public MainController(HELBVue vue){
@@ -36,14 +39,14 @@ public class MainController implements Observer{
 
         startTimeline();
 
-        configAction();
+        checkComboBoxStatus();
 
     }
 
-    private void configAction() {
-        //Observer qui permet d'update la liste de composant à droite.
-        helbVue.buttonTest.setOnAction(e ->{
-            System.out.println(ComponentList.size());
+    private void checkComboBoxStatus() {
+        //permet de changer de stratégie.
+        helbVue.comboBox.setOnAction(e ->{
+            strategy.setStrategy(helbVue.comboBox.getValue().toString());
         });
     }
 
@@ -69,6 +72,8 @@ public class MainController implements Observer{
                     }
                     cptCycle++;
                     System.out.println("cycle de comptage");
+                    strategy.getProduct(ComponentList);
+
                 }else{
                     System.out.println("cycle bloqué");
                 }
