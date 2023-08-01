@@ -37,14 +37,8 @@ public abstract class Component{
 
     public abstract void getinfo();
 
-    public int[] setRGBColor(String componentName) {
-        if (componentName.equals("Motor")) {
-            return RGBTab = new int[]{212, 0, 212};
-        } else if (componentName.equals("Sensor")) {
-            return RGBTab = new int[]{0, 255, 0};
-        } else if (componentName.equals("Battery")) {
-            return RGBTab = new int[]{0, 0, 255};
-        }
+    public int[] setRGBColor(int R, int G, int B) {
+        RGBTab = new int[]{R, G, B};
         return RGBTab;
     }
 

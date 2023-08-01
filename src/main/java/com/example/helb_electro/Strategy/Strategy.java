@@ -15,10 +15,10 @@ public class Strategy{
     private ArrayList<Product> allProductList = new ArrayList<>();
 
     public Strategy(){
-        allProductList.add(new Robot(new Sensor("100m","noir","d0"), new Motor("100W","d0")));
-        allProductList.add(new Alarm(new Battery("100%","d0"),new Sensor("100m","noir","d0")));
+        allProductList.add(new Robot(new Sensor("100m","d0","noir"), new Motor("100W","d0")));
+        allProductList.add(new Alarm(new Battery("100%","d0"),new Sensor("100m","d0","noir")));
         allProductList.add(new RemoteCar(new Battery("100%","d0"),new Motor("100W","d0")));
-        allProductList.add(new Drone(new Battery("100%","d0"),new Motor("100W","d0"),new Sensor("100m","noir","d0")));
+        allProductList.add(new Drone(new Battery("100%","d0"),new Motor("100W","d0"),new Sensor("100m","d0","noir")));
 
     }
 

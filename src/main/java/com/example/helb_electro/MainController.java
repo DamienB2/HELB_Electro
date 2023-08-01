@@ -66,11 +66,14 @@ public class MainController implements Observer{
                     if(duration == cptCycle){
                         createComponent(datas);
 
+
+
                         cptCycle = 0;
                         cpt++;
                     }
                     cptCycle++;
-                    System.out.println("cycle de comptage");
+                    //System.out.println("cycle de comptage");
+
                     //retourne une list d'id pour le moment
                     ArrayList<Integer>testList = strategy.getProductid(ComponentList);
 
@@ -123,7 +126,9 @@ public class MainController implements Observer{
         //- Création du produit avec les composants avant la suppression
         //- Remise à zéro du visuel car lorsque les composants sont supprimés de la liste, le visuel ne change pas
         for (int id: testList) {
+            System.out.println("Suppression de :"+id);
             ComponentList.remove(id);
         }
+        update();
     }
 }

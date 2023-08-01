@@ -5,7 +5,7 @@ public class Motor extends Component {
 
     public Motor(String componentSpecification, String componentDefectivePercentage){
         super(componentSpecification, componentDefectivePercentage);
-        this.setRGBColor(this.getClass().getSimpleName());
+        this.setRGBColor(212, 0, 212);
     }
 
     @Override

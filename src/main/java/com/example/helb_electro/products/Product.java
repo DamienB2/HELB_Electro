@@ -2,8 +2,6 @@ package com.example.helb_electro.products;
 
 import com.example.helb_electro.components.Component;
 
-import java.util.ArrayList;
-
 public abstract class Product {
 
     private String ecoScore;
@@ -26,7 +24,7 @@ public abstract class Product {
         this.RGBTab = setRGBColor(component1.getRGBColor(), component2.getRGBColor());
     }
 
-    //utilisation de tableau serait plus utile car lors de 3 composants ne marche pas
+    // /!\  utilisation de tableau serait plus utile car lors de 3 composants ne marche pas
     private int[] setRGBColor(int[] rgbColorComponent1, int[] rgbColorComponent2) {
 
         //Additionne les couleurs des 2 composants pour faire la couleur du produit.

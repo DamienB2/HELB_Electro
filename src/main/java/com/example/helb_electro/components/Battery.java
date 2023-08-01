@@ -4,7 +4,7 @@ public class Battery extends Component {
 
     public Battery(String componentSpecification, String componentDefectivePercentage){
         super(componentSpecification, componentDefectivePercentage);
-        this.setRGBColor(this.getClass().getSimpleName());
+        this.setRGBColor(0, 0, 255);
     }
 
     @Override

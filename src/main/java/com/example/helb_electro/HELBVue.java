@@ -1,7 +1,6 @@
 package com.example.helb_electro;
 
 import com.example.helb_electro.components.Component;
-import com.example.helb_electro.products.Product;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -157,15 +156,28 @@ public final class HELBVue {
     public void updateComponentList(ArrayList<Component> componentList){
         int cpt = 0;
 
+
+
         for (Component component: componentList) {
+
             int[] colorTab = component.getRGBColor();
-            component.getinfo();
+            //component.getinfo();
 
             Label labelToUpdate = componentLabelList.get(cpt);
             labelToUpdate.setText(component.getClass().getSimpleName());
             labelToUpdate.setStyle("-fx-background-color : rgb("+colorTab[0]+","+colorTab[1]+","+colorTab[2]+");");
 
             cpt++;
+        }
+        resetComponentVisual(componentList.size());
+    }
+
+    private void resetComponentVisual(int size) {
+
+        for (int i = size; i < 8; i++) {
+            Label labelToUpdate = componentLabelList.get(i);
+            labelToUpdate.setText("Emplacement :"+i);
+            labelToUpdate.setStyle("-fx-background-color : rgb("+255+","+255+","+255+");");
         }
     }
 }
