@@ -2,6 +2,8 @@ package com.example.helb_electro;
 
 import com.example.helb_electro.Strategy.Strategy;
 import com.example.helb_electro.components.*;
+import com.example.helb_electro.products.Product;
+import com.example.helb_electro.products.ProductFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -66,19 +68,25 @@ public class MainController implements Observer{
                     if(duration == cptCycle){
                         createComponent(datas);
 
-
-
                         cptCycle = 0;
                         cpt++;
                     }
                     cptCycle++;
-                    //System.out.println("cycle de comptage");
+                    System.out.println("cycle de comptage");
 
                     //retourne une list d'id pour le moment
-                    ArrayList<Integer>testList = strategy.getProductid(ComponentList);
+                    ArrayList<Integer>componentNeededForTheNewProductList = strategy.getProductid(ComponentList);
 
-                    //delete les composants de la liste de composant
-                    deleteComponantFromComponentList(testList);
+                    if(componentNeededForTheNewProductList.size() >= 2){
+                        //appel la factory pour créé un nouveau product
+                        createProduct(componentNeededForTheNewProductList);
+
+                        //delete les composants de la liste de composant
+                        deleteComponantFromComponentList(componentNeededForTheNewProductList);
+                    }
+
+
+
 
                 }else{
                     System.out.println("cycle bloqué");
@@ -89,14 +97,11 @@ public class MainController implements Observer{
         timeline.play();
     }
 
-    private boolean checkComponentListSize() {
-        if(ComponentList.size() == MAX_COMPONANT){
-            return true;
-        }else{
-            return false;
-        }
-    }
+    private void createProduct(ArrayList<Integer> componentNeededForTheNewProductList) {
+        // /!\ IL FAUT CREER UN PRODUCT ICI.
 
+        //Product newProduct = ProductFactory.getProduct();
+    }
 
     private void createComponent(String[] datas){
         //assignation des variables pour avoir un accès plus simple au différentes données
@@ -106,6 +111,7 @@ public class MainController implements Observer{
         componentDefectivePercentage = datas[datas.length-1];
 
         Component newComponent = ComponentFactory.getComponent(componentName,componentSpecification,componentColor,componentDefectivePercentage);
+        newComponent.getinfo();
         addComponentToComponentList(newComponent);
 
     }
@@ -115,6 +121,14 @@ public class MainController implements Observer{
         update();
     }
 
+    private boolean checkComponentListSize() {
+        if(ComponentList.size() == MAX_COMPONANT){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     @Override
     public void update() {
         helbVue.updateComponentList(ComponentList);
@@ -122,13 +136,12 @@ public class MainController implements Observer{
 
     private void deleteComponantFromComponentList(ArrayList<Integer> testList) {
         //supprime les composants servant à la création d'un produit de la liste
-        // DOIT ETRE RAJOUTER:
-        //- Création du produit avec les composants avant la suppression
-        //- Remise à zéro du visuel car lorsque les composants sont supprimés de la liste, le visuel ne change pas
         for (int id: testList) {
-            System.out.println("Suppression de :"+id);
+            //System.out.println("Suppression de composant à la position:"+id);
             ComponentList.remove(id);
         }
+
+        //le update permet de remettre le visuel à zero lorsque l'on supprime des composants de la liste
         update();
     }
 }

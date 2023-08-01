@@ -43,13 +43,12 @@ public class Strategy{
         strategy.getSortedProductList(allProductList);
 
         ArrayList<Integer> idOfComponentForTheNewProductList= new ArrayList<>();
-
         fillComponentForTheProductList(idOfComponentForTheNewProductList, componentsList);
 
         return idOfComponentForTheNewProductList;
     }
 
-    private void fillComponentForTheProductList(ArrayList<Integer> idOfComponentForTheNewProductList, ArrayList<Component> componentsList) {
+    private ArrayList<Integer> fillComponentForTheProductList(ArrayList<Integer> idOfComponentForTheNewProductList, ArrayList<Component> componentsList) {
         int id = 0;
 
         for (Product product: allProductList) {
@@ -75,11 +74,14 @@ public class Strategy{
 
                         if(id != -1){
                             idOfComponentForTheNewProductList.add(id);
+                            return idOfComponentForTheNewProductList;
                         }
                     }
+                    return idOfComponentForTheNewProductList;
                 }
             }
         }
+        return null;
     }
 
 

@@ -100,7 +100,7 @@ public final class HELBVue {
         BorderStroke borderStroke = new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, null);
         Border border = new Border(borderStroke);
 
-        for (int i = 1; i <= 8; i++) {
+        for (int i = 0; i <8; i++) {
             Label label = new Label();
             label.setAlignment(Pos.CENTER);
             label.setPrefWidth(labelWidth);
