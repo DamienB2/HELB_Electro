@@ -176,7 +176,7 @@ public final class HELBVue {
 
         for (int i = size; i < 8; i++) {
             Label labelToUpdate = componentLabelList.get(i);
-            labelToUpdate.setText("Emplacement :"+i);
+            labelToUpdate.setText("Emplacement: "+i);
             labelToUpdate.setStyle("-fx-background-color : rgb("+255+","+255+","+255+");");
         }
     }

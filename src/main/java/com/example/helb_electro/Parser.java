@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class Parser {
-    private String file = "/home/helb/IdeaProjects/HELB_Electro/src/main/java/com/example/helb_electro/data.txt";
+    private String file = "../HELB_Electro/src/main/java/com/example/helb_electro/data.txt";
     private List<String[]> ComponentList = new ArrayList<>();
 
     public Parser(){
