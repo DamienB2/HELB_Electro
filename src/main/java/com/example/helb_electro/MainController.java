@@ -29,6 +29,7 @@ public class MainController implements Observer{
     //pour avoir le pourcentage on utilise la dernière info de la ligne qu'on reçoit car si on définis un emplacement comme pour les autres, la couleur et la déféctuosité seront mélangée
 
     private static final ArrayList<Component> ComponentList = new ArrayList<>();
+    private static final ArrayList<Product> ProductList = new ArrayList<>();
     private Parser parser;
     private HELBVue helbVue;
     private Strategy strategy = new Strategy();
@@ -75,16 +76,14 @@ public class MainController implements Observer{
                     System.out.println("cycle de comptage");
 
                     //retourne une list d'id pour le moment
-                    ArrayList<Integer>componentNeededForTheNewProductList = strategy.getProductid(ComponentList);
+                    ArrayList<String>infoNeededForTheNewProductList = strategy.getProductid(ComponentList);
 
-                    if(componentNeededForTheNewProductList.size() >= 2){
+                    if(infoNeededForTheNewProductList.size() > 0){
                         //appel la factory pour créé un nouveau product
-                        createProduct(componentNeededForTheNewProductList);
-
-                        //delete les composants de la liste de composant
-                        deleteComponantFromComponentList(componentNeededForTheNewProductList);
+                        createProduct(infoNeededForTheNewProductList);
+                        System.out.println(ProductList);
                     }
-
+                   
 
 
 
@@ -97,10 +96,24 @@ public class MainController implements Observer{
         timeline.play();
     }
 
-    private void createProduct(ArrayList<Integer> componentNeededForTheNewProductList) {
-        // /!\ IL FAUT CREER UN PRODUCT ICI.
+    private void createProduct(ArrayList<String> infoNeededForTheNewProductList) {
+        ArrayList<Component> componentNeededForTheNewProductList = new ArrayList<>();
+        String productName;
 
-        //Product newProduct = ProductFactory.getProduct();
+        //permet de récupéré les composants dans la liste de composants pour la création du produit à partir des ids (positions)
+        for (int i = 0; i < infoNeededForTheNewProductList.size() - 1; i++) {
+            componentNeededForTheNewProductList.add(ComponentList.get(Integer.parseInt(infoNeededForTheNewProductList.get(i))));
+        }
+
+        productName = infoNeededForTheNewProductList.get(infoNeededForTheNewProductList.size() - 1);
+
+
+
+        Product newProduct = ProductFactory.getProduct(componentNeededForTheNewProductList, productName);
+        ProductList.add(newProduct);
+
+        //delete les composants de la liste de composant
+        deleteComponantFromComponentList(infoNeededForTheNewProductList);
     }
 
     private void createComponent(String[] datas){
@@ -134,11 +147,10 @@ public class MainController implements Observer{
         helbVue.updateComponentList(ComponentList);
     }
 
-    private void deleteComponantFromComponentList(ArrayList<Integer> testList) {
+    private void deleteComponantFromComponentList(ArrayList<String> infoList) {
         //supprime les composants servant à la création d'un produit de la liste
-        for (int id: testList) {
-            //System.out.println("Suppression de composant à la position:"+id);
-            ComponentList.remove(id);
+        for (int i = 0; i < infoList.size() - 1; i++) {
+            ComponentList.remove(Integer.parseInt(infoList.get(i)));
         }
 
         //le update permet de remettre le visuel à zero lorsque l'on supprime des composants de la liste

@@ -3,25 +3,25 @@ package com.example.helb_electro.products;
 
 import com.example.helb_electro.components.Component;
 
+import java.util.ArrayList;
+
 public class ProductFactory {
 
-    public static Product getProduct(Component component1, Component component2){
+    public static Product getProduct(ArrayList<Component> componentNeededForTheNewProductList, String productName) {
 
-        if(component1.getClass().getSimpleName().equals("Battery") && component2.getClass().getSimpleName().equals("Sensor")){
-            return new Alarm(component1, component2);
+        switch (productName){
+            case("Robot"):
+                return new Robot(componentNeededForTheNewProductList.get(0), componentNeededForTheNewProductList.get(1));
 
-        } else if(component1.getClass().getSimpleName().equals("Battery") && component2.getClass().getSimpleName().equals("Motor")) {
-            return new RemoteCar(component1, component2);
+            case("Alarm"):
+                return new Alarm(componentNeededForTheNewProductList.get(0), componentNeededForTheNewProductList.get(1));
 
-        } else if(component1.getClass().getSimpleName().equals("Sensor") && component2.getClass().getSimpleName().equals("Motor")) {
-            return new Robot(component1, component2);
+            case("RemoteCar"):
+                return new RemoteCar(componentNeededForTheNewProductList.get(0), componentNeededForTheNewProductList.get(1));
 
-        }else{
-            return null;
+            case("Drone"):
+                return new Drone(componentNeededForTheNewProductList.get(0), componentNeededForTheNewProductList.get(1), componentNeededForTheNewProductList.get(2));
         }
-    }
-
-    public static Product getProduct(Component component1, Component component2, Component component3){
-        return new Drone(component1, component2, component3);
+        return null;
     }
 }

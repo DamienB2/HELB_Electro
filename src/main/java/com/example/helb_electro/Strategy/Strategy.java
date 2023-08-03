@@ -38,17 +38,17 @@ public class Strategy{
         }
     }
 
-    public ArrayList<Integer> getProductid(ArrayList<Component> componentsList){
+    public ArrayList<String> getProductid(ArrayList<Component> componentsList){
         //trie la liste allProductList pour la ranger en fonction de la stratégie choisie
         strategy.getSortedProductList(allProductList);
 
-        ArrayList<Integer> idOfComponentForTheNewProductList= new ArrayList<>();
-        fillComponentForTheProductList(idOfComponentForTheNewProductList, componentsList);
+        ArrayList<String> ComponentForTheNewProductList= new ArrayList<>();
+        fillComponentForTheProductList(ComponentForTheNewProductList, componentsList);
 
-        return idOfComponentForTheNewProductList;
+        return ComponentForTheNewProductList;
     }
 
-    private ArrayList<Integer> fillComponentForTheProductList(ArrayList<Integer> idOfComponentForTheNewProductList, ArrayList<Component> componentsList) {
+    private ArrayList<String> fillComponentForTheProductList(ArrayList<String> idOfComponentForTheNewProductList, ArrayList<Component> componentsList) {
         int id = 0;
 
         for (Product product: allProductList) {
@@ -59,24 +59,29 @@ public class Strategy{
 
             //Si correspondance, ajout de la position du composant dans la liste à une liste de position
             if(id != -1){
-                idOfComponentForTheNewProductList.add(id);
+                idOfComponentForTheNewProductList.add(String.valueOf(id));
 
                 //recherche une correspondance du deuxième composant du produit dans la liste de composant.
                 id = seekForComponent(product.getComponentOfProductById(2),componentsList);
 
                 //Si correspondance, ajout de la position du composant dans la liste à une liste de position
                 if(id != -1){
-                    idOfComponentForTheNewProductList.add(id);
+                    idOfComponentForTheNewProductList.add(String.valueOf(id));
 
                     //check si le produit est un drone. si oui, recherche une troisième correspondance.
                     if(product.getClass().getSimpleName().equals("Drone")){
                         id = seekForComponent(product.getComponentOfProductById(3),componentsList);
 
                         if(id != -1){
-                            idOfComponentForTheNewProductList.add(id);
+                            idOfComponentForTheNewProductList.add(String.valueOf(id));
+                            idOfComponentForTheNewProductList.add(product.getClass().getSimpleName());
+
                             return idOfComponentForTheNewProductList;
                         }
                     }
+
+                    idOfComponentForTheNewProductList.add(product.getClass().getSimpleName());
+
                     return idOfComponentForTheNewProductList;
                 }
             }
