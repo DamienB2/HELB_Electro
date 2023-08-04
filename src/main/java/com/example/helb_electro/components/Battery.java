@@ -6,9 +6,4 @@ public class Battery extends Component {
         super(componentSpecification, componentDefectivePercentage);
         this.setRGBColor(0, 0, 255);
     }
-
-    @Override
-    public void getinfo() {
-        System.out.println("New "+this.getClass().getSimpleName()+". Specification: "+getSpecification()+". Deficient: "+getDefectiveness());
-    }
 }

@@ -161,7 +161,7 @@ public final class HELBVue {
         for (Component component: componentList) {
 
             int[] colorTab = component.getRGBColor();
-            //component.getinfo();
+
 
             Label labelToUpdate = componentLabelList.get(cpt);
             labelToUpdate.setText(component.getClass().getSimpleName());

@@ -12,8 +12,4 @@ public class Sensor extends Component{
     public String getComponentColor(){
         return componentColor;
     }
-    @Override
-    public void getinfo() {
-        System.out.println("New "+this.getClass().getSimpleName()+". Specification: "+getSpecification()+". Color: "+getComponentColor()+". Deficient: "+getDefectiveness());
-    }
 }

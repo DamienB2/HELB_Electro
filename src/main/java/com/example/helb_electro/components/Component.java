@@ -34,9 +34,6 @@ public abstract class Component{
         return rand < percentage;
     }
 
-
-    public abstract void getinfo();
-
     public int[] setRGBColor(int R, int G, int B) {
         RGBTab = new int[]{R, G, B};
         return RGBTab;
