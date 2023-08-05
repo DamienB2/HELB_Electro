@@ -1,6 +1,7 @@
 package com.example.helb_electro;
 
 import com.example.helb_electro.components.Component;
+import com.example.helb_electro.products.Product;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -33,9 +34,12 @@ public final class HELBVue {
     private final int rootWidth = 600;
     private final int CBWidth = 150;
     private final int labelWidth = 150;
+    private final int NUMBER_OF_LABEL = 8;
 
     private static ArrayList<Label> componentLabelList = new ArrayList<>();
+    private static ArrayList<ProductButton> productButtonList = new ArrayList<>();
     private final VBox vBox;
+    private final GridPane gridPane;
 
     private Stage stage;
     private Scene scene;
@@ -46,7 +50,7 @@ public final class HELBVue {
     public HELBVue(Stage stage){
         this.stage = stage;
 
-        GridPane gridPane = new GridPane();
+        gridPane = new GridPane();
         gridPane.prefHeight(gridHeight);
         gridPane.prefWidth(gridWidth);
         gridPane.setHgap(HgapGrid);
@@ -100,7 +104,7 @@ public final class HELBVue {
         BorderStroke borderStroke = new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, null);
         Border border = new Border(borderStroke);
 
-        for (int i = 0; i <8; i++) {
+        for (int i = 0; i < NUMBER_OF_LABEL; i++) {
             Label label = new Label();
             label.setAlignment(Pos.CENTER);
             label.setPrefWidth(labelWidth);
@@ -119,10 +123,10 @@ public final class HELBVue {
             for (int col = 0; col < colNumber; col++) {
 
                 if(cptButton < nbButton){
-                    Button button = new Button();
-                    button.setPrefHeight(50);
-                    button.setPrefWidth(100);
-                    gridPane.add(button, col, row);
+
+                    ProductButton productButton = new ProductButton();
+                    productButtonList.add(productButton);
+                    gridPane.add(productButton.getButton(), col, row);
 
                     cptButton++;
                 }
@@ -154,30 +158,43 @@ public final class HELBVue {
 
 
     public void updateComponentList(ArrayList<Component> componentList){
-        int cpt = 0;
-
-
+        int cptComponent = 0;
 
         for (Component component: componentList) {
-
             int[] colorTab = component.getRGBColor();
 
-
-            Label labelToUpdate = componentLabelList.get(cpt);
+            Label labelToUpdate = componentLabelList.get(cptComponent);
             labelToUpdate.setText(component.getClass().getSimpleName());
             labelToUpdate.setStyle("-fx-background-color : rgb("+colorTab[0]+","+colorTab[1]+","+colorTab[2]+");");
 
-            cpt++;
+            cptComponent++;
         }
         resetComponentVisual(componentList.size());
     }
 
     private void resetComponentVisual(int size) {
 
-        for (int i = size; i < 8; i++) {
+        //permet de retirer les composants qui ont été utilisés de la liste
+        for (int i = size; i < NUMBER_OF_LABEL; i++) {
             Label labelToUpdate = componentLabelList.get(i);
             labelToUpdate.setText("Emplacement: "+i);
             labelToUpdate.setStyle("-fx-background-color : rgb("+255+","+255+","+255+");");
         }
+    }
+
+    public void updateProductList(ArrayList<Product> productList) {
+        int cptProduct = 0;
+
+        for (Product product: productList) {
+            int[] colorTab = product.getRGBColor();
+
+            Button buttonToUpdate = (Button) gridPane.getChildren().get(cptProduct);
+            buttonToUpdate.setText(product.getClass().getSimpleName());
+            buttonToUpdate.setStyle("-fx-background-color : rgb("+colorTab[0]+","+colorTab[1]+","+colorTab[2]+");");
+
+            cptProduct++;
+        }
+
+
     }
 }

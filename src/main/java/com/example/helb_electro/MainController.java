@@ -18,10 +18,11 @@ public class MainController implements Observer{
     private int cptProduct = 1;
     private int duration;
     private boolean componentListState = false;
+    private boolean productListState = false;
     private boolean productCreationInProgress = false;
 
     private final int MAX_COMPONANT = 8;
-
+    private final int MAX_PRODUCT = 8;
 
     private String componentTime;
     private String componentName;
@@ -62,6 +63,7 @@ public class MainController implements Observer{
             public void handle(ActionEvent actionEvent) {
 
                 componentListState = checkComponentListSize();
+                productListState = checkProductListSize();
 
                 if(componentListState == false){
                     String[] datas = parser.getComponentArray(cpt);
@@ -77,16 +79,16 @@ public class MainController implements Observer{
                     cptCycle++;
                     System.out.println("cycle de comptage");
 
-                    //retourne une list d'id pour le moment
-                    ArrayList<String>infoNeededForTheNewProductList = strategy.getProductid(ComponentList);
 
-                    if(infoNeededForTheNewProductList.size() > 0){
-                        //appel la factory pour créé un nouveau product
-                        createProduct(infoNeededForTheNewProductList);
+                    if(productListState == false){
+                        //retourne une list d'id pour le moment
+                        ArrayList<String>infoNeededForTheNewProductList = strategy.getProductid(ComponentList);
+
+                        if(infoNeededForTheNewProductList.size() > 0){
+                            //appel la factory pour créé un nouveau product
+                            createProduct(infoNeededForTheNewProductList);
+                        }
                     }
-                   
-
-
 
                 }else{
                     System.out.println("cycle bloqué");
@@ -96,6 +98,7 @@ public class MainController implements Observer{
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
+
 
     private void createProduct(ArrayList<String> infoNeededForTheNewProductList) {
 
@@ -111,6 +114,8 @@ public class MainController implements Observer{
         productName = infoNeededForTheNewProductList.get(infoNeededForTheNewProductList.size() - 1);
 
 
+
+
         //Check pour savoir si un produit est en création.
         if(productCreationInProgress == false){
             productCreationInProgress = true;
@@ -118,27 +123,33 @@ public class MainController implements Observer{
             //Création du nouveau produit
             Product newProduct = ProductFactory.getProduct(componentNeededForTheNewProductList, productName);
 
-            //Création d'une timeline qui dure le temps de création du nouveau produit. A la fin de celle-ci, le nouveau produit est ajouté à la liste de produit et les composants sont retirés de la liste de droite.
-            Timeline timeline = new Timeline();
-            timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    //permet d'avoir une indication du temps restant avant la création du produit
-                    System.out.println(cptProduct+"/"+newProduct.getFabricationTime());
-                    cptProduct++;
-                }
-            }));
-            timeline.setCycleCount(newProduct.getFabricationTime());
-            timeline.setOnFinished(event -> {
-                addProductToTheProductList(newProduct);
+            if(newProduct != null){
+                //Création d'une timeline qui dure le temps de création du nouveau produit. A la fin de celle-ci, le nouveau produit est ajouté à la liste de produit et les composants sont retirés de la liste de droite.
+                Timeline timeline = new Timeline();
+                timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        //permet d'avoir une indication du temps restant avant la création du produit
+                        System.out.println(cptProduct+"/"+newProduct.getFabricationTime());
+                        cptProduct++;
+                    }
+                }));
+                timeline.setCycleCount(newProduct.getFabricationTime());
+                timeline.setOnFinished(event -> {
+                    addProductToTheProductList(newProduct);
 
-                //delete les composants de la liste de composant
-                deleteComponantFromComponentList(infoNeededForTheNewProductList);
+                    //delete les composants de la liste de composant
+                    deleteComponantFromComponentList(infoNeededForTheNewProductList);
+                    productCreationInProgress = false;
+                    cptProduct = 1;
+                });
+                timeline.play();
+            }else{
                 productCreationInProgress = false;
-                cptProduct = 1;
-            });
-            timeline.play();
+            }
+
         }
+
     }
 
     private void addProductToTheProductList(Product newProduct) {
@@ -173,9 +184,18 @@ public class MainController implements Observer{
         }
     }
 
+    private boolean checkProductListSize() {
+        if(ProductList.size() == MAX_PRODUCT){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     @Override
     public void update() {
         helbVue.updateComponentList(ComponentList);
+        helbVue.updateProductList(ProductList);
     }
 
     private void deleteComponantFromComponentList(ArrayList<String> infoList) {

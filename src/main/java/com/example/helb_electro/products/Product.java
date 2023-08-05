@@ -9,12 +9,14 @@ public abstract class Product {
     private int price;
     private int[] RGBTab = {0, 0, 0}; //default color value
     private Component component1, component2, component3;
+    private boolean defectiveness = false;
 
     //Pas optimiser car si nouveau composant pose problème
     public Product(Component component1, Component component2){
         this.component1 = component1;
         this.component2 = component2;
         this.RGBTab = setRGBColor(component1.getRGBColor(), component2.getRGBColor());
+        this.setDefectiveness();
     }
 
     public Product(Component component1, Component component2, Component component3) {
@@ -22,6 +24,18 @@ public abstract class Product {
         this.component2 = component2;
         this.component3 = component3;
         this.RGBTab = setRGBColor(component1.getRGBColor(), component2.getRGBColor());
+        this.setDefectiveness();
+    }
+
+    private void setDefectiveness(){
+        if((component1.getDefectiveness() == true) || (component2.getDefectiveness() == true)){
+            defectiveness = true;
+        }else{
+            defectiveness = false;
+        }
+    }
+    public boolean getDefectiveness(){
+        return defectiveness;
     }
 
     // /!\  utilisation de tableau serait plus utile car lors de 3 composants ne marche pas

@@ -10,12 +10,10 @@ import javafx.stage.Stage;
 
 public class HelloApplication extends Application {
 
-    private int nbCol = 3;
-    private int nbRow = 3;
-
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("HELB-Electro");
+        stage.setFullScreen(false);
 
         //créé un singleton pour HELBVue
         HELBVue vue = new HELBVue(stage);
