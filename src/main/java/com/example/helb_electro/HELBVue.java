@@ -36,10 +36,11 @@ public final class HELBVue {
     private final int labelWidth = 150;
     private final int NUMBER_OF_LABEL = 8;
 
-    private static ArrayList<Label> componentLabelList = new ArrayList<>();
-    private static ArrayList<ProductButton> productButtonList = new ArrayList<>();
+    private final ArrayList<Label> componentLabelList = new ArrayList<>();
+    public final ArrayList<ProductButton> productButtonList = new ArrayList<>();
     private final VBox vBox;
-    private final GridPane gridPane;
+    private GridPane gridPane;
+
 
     private Stage stage;
     private Scene scene;
@@ -189,12 +190,19 @@ public final class HELBVue {
             int[] colorTab = product.getRGBColor();
 
             Button buttonToUpdate = (Button) gridPane.getChildren().get(cptProduct);
-            buttonToUpdate.setText(product.getClass().getSimpleName());
+            productButtonList.get(cptProduct).setAssignedProduct(product);
+            buttonToUpdate.setText(productButtonList.get(cptProduct).getAssignedProduct().getClass().getSimpleName());
             buttonToUpdate.setStyle("-fx-background-color : rgb("+colorTab[0]+","+colorTab[1]+","+colorTab[2]+");");
+
 
             cptProduct++;
         }
 
 
+    }
+
+    public void clearStorage(){
+        boolean result = ConfirmBox.display("Clear all the Product storage ?", "Are you sure ?");
+        System.out.println(result);
     }
 }

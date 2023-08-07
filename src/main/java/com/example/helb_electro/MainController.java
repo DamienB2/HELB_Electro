@@ -53,6 +53,15 @@ public class MainController implements Observer{
         helbVue.comboBox.setOnAction(e ->{
             strategy.setStrategy(helbVue.comboBox.getValue().toString());
         });
+
+        for (ProductButton productButton : helbVue.productButtonList) {
+            productButton.getButton().setOnAction(e -> {
+                System.out.println("Je suis le bouton: "+productButton.getAssignedProduct());
+
+            });
+        }
+
+
     }
 
     //Start timeline permet de lire ligne par ligne le fichier data. Il stocke ensuite les données dans un tableau de strings qui seront ensuite affichées lorsque le temps reçus est atteint
@@ -88,6 +97,8 @@ public class MainController implements Observer{
                             //appel la factory pour créé un nouveau product
                             createProduct(infoNeededForTheNewProductList);
                         }
+                    }else{
+                        callConfirmBox();
                     }
 
                 }else{
@@ -97,6 +108,10 @@ public class MainController implements Observer{
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+    }
+
+    private void callConfirmBox() {
+        helbVue.clearStorage();
     }
 
 
