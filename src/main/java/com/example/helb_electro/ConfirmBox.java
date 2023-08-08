@@ -8,7 +8,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.nio.FloatBuffer;
 
 public class ConfirmBox {
     static boolean answer;
@@ -24,20 +23,14 @@ public class ConfirmBox {
         label.setText(message);
 
         Button yesButton = new Button("Yes");
-        Button noButton = new Button("No");
 
         yesButton.setOnAction(event -> {
             answer = true;
             window.close();
         });
 
-        noButton.setOnAction(e -> {
-            answer = false;
-            window.close();
-        });
-
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(label, yesButton, noButton);
+        layout.getChildren().addAll(label, yesButton);
         layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout);

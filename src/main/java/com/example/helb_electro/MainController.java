@@ -6,6 +6,7 @@ import com.example.helb_electro.products.Product;
 import com.example.helb_electro.products.ProductFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.util.Duration;
@@ -20,6 +21,7 @@ public class MainController implements Observer{
     private boolean componentListState = false;
     private boolean productListState = false;
     private boolean productCreationInProgress = false;
+    private boolean confirmBoxActive = false;
 
     private final int MAX_COMPONANT = 8;
     private final int MAX_PRODUCT = 8;
@@ -32,7 +34,7 @@ public class MainController implements Observer{
     //pour avoir le pourcentage on utilise la dernière info de la ligne qu'on reçoit car si on définis un emplacement comme pour les autres, la couleur et la déféctuosité seront mélangée
 
     private static final ArrayList<Component> ComponentList = new ArrayList<>();
-    private static final ArrayList<Product> ProductList = new ArrayList<>();
+
     private Parser parser;
     private HELBVue helbVue;
     private Strategy strategy = new Strategy();
@@ -57,7 +59,8 @@ public class MainController implements Observer{
         for (ProductButton productButton : helbVue.productButtonList) {
             productButton.getButton().setOnAction(e -> {
                 System.out.println("Je suis le bouton: "+productButton.getAssignedProduct());
-
+                productButton.setAssignedProduct(null);
+                update();
             });
         }
 
@@ -88,21 +91,32 @@ public class MainController implements Observer{
                     cptCycle++;
                     System.out.println("cycle de comptage");
 
-
-                    if(productListState == false){
-                        //retourne une list d'id pour le moment
-                        ArrayList<String>infoNeededForTheNewProductList = strategy.getProductid(ComponentList);
-
-                        if(infoNeededForTheNewProductList.size() > 0){
-                            //appel la factory pour créé un nouveau product
-                            createProduct(infoNeededForTheNewProductList);
-                        }
-                    }else{
-                        callConfirmBox();
-                    }
-
                 }else{
                     System.out.println("cycle bloqué");
+                }
+
+                if(productListState == false){
+                    //retourne une list d'id pour le moment
+                    ArrayList<String>infoNeededForTheNewProductList = strategy.getProductid(ComponentList);
+
+                    if(infoNeededForTheNewProductList.size() > 0){
+                        //appel la factory pour créé un nouveau product
+                        createProduct(infoNeededForTheNewProductList);
+                    }
+                }else{
+                    if(confirmBoxActive == false){
+                        confirmBoxActive = true;
+
+                        Platform.runLater(() -> {
+                            boolean result = helbVue.clearStorage();
+
+                            if(result == true){
+                                clearProductStorage();
+                                confirmBoxActive = false;
+                            }
+                        });
+                    }
+
                 }
             }
         }));
@@ -110,8 +124,11 @@ public class MainController implements Observer{
         timeline.play();
     }
 
-    private void callConfirmBox() {
-        helbVue.clearStorage();
+    private void clearProductStorage() {
+        for (ProductButton productButton: helbVue.productButtonList) {
+            productButton.setAssignedProduct(null);
+            update();
+        }
     }
 
 
@@ -168,9 +185,19 @@ public class MainController implements Observer{
     }
 
     private void addProductToTheProductList(Product newProduct) {
-        ProductList.add(newProduct);
+        int location = findLocationForProduct();
+        helbVue.productButtonList.get(location).setAssignedProduct(newProduct);
         System.out.println("New product !");
         update();
+    }
+
+    private int findLocationForProduct() {
+        for (int i = 0; i < helbVue.productButtonList.size(); i++) {
+            if(helbVue.productButtonList.get(i).getAssignedProduct() == null){
+                return i;
+            }
+        }
+        return -1;
     }
 
     private void createComponent(String[] datas){
@@ -200,17 +227,23 @@ public class MainController implements Observer{
     }
 
     private boolean checkProductListSize() {
-        if(ProductList.size() == MAX_PRODUCT){
+        int nbNull = 0;
+        for (int i = 0; i < helbVue.productButtonList.size(); i++) {
+            if(helbVue.productButtonList.get(i).getAssignedProduct() == null)
+                nbNull ++;
+        }
+
+        if(nbNull == 0){
             return true;
         }else{
-            return false;
+            return  false;
         }
     }
 
     @Override
     public void update() {
         helbVue.updateComponentList(ComponentList);
-        helbVue.updateProductList(ProductList);
+        helbVue.updateProductList();
     }
 
     private void deleteComponantFromComponentList(ArrayList<String> infoList) {

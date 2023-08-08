@@ -1,7 +1,6 @@
 package com.example.helb_electro;
 
 import com.example.helb_electro.components.Component;
-import com.example.helb_electro.products.Product;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -183,26 +182,28 @@ public final class HELBVue {
         }
     }
 
-    public void updateProductList(ArrayList<Product> productList) {
-        int cptProduct = 0;
+    public void updateProductList() {
 
-        for (Product product: productList) {
-            int[] colorTab = product.getRGBColor();
+        for (ProductButton productButton: productButtonList) {
+            if(productButton.getAssignedProduct() != null){
+                int[] colorTab = productButton.getAssignedProduct().getRGBColor();
 
-            Button buttonToUpdate = (Button) gridPane.getChildren().get(cptProduct);
-            productButtonList.get(cptProduct).setAssignedProduct(product);
-            buttonToUpdate.setText(productButtonList.get(cptProduct).getAssignedProduct().getClass().getSimpleName());
-            buttonToUpdate.setStyle("-fx-background-color : rgb("+colorTab[0]+","+colorTab[1]+","+colorTab[2]+");");
+                Button buttonToUpdate = productButton.getButton();
+                buttonToUpdate.setText(productButton.getAssignedProduct().getClass().getSimpleName());
+                buttonToUpdate.setStyle("-fx-background-color : rgb("+colorTab[0]+","+colorTab[1]+","+colorTab[2]+");");
+            }else{
 
-
-            cptProduct++;
+                Button buttonToUpdate = productButton.getButton();
+                buttonToUpdate.setText("");
+                buttonToUpdate.setStyle("-fx-background-color : rgb("+255+","+255+","+255+");");
+            }
         }
-
 
     }
 
-    public void clearStorage(){
-        boolean result = ConfirmBox.display("Clear all the Product storage ?", "Are you sure ?");
-        System.out.println(result);
+    public boolean clearStorage(){
+        boolean result;
+        return result = ConfirmBox.display("ALERT !", "Do you want to clear the storage ?");
+
     }
 }
