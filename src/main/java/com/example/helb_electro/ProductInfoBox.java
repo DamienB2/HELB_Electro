@@ -15,6 +15,7 @@ public class ProductInfoBox {
     private static String productInfoString;
     private static String answer;
 
+    //CRASH SI MON BOUTON NE CONTIENT PAS DE PRODUCT
     public static String display(ProductButton productButton){
         answer = null;
 
@@ -33,12 +34,20 @@ public class ProductInfoBox {
 
         Button statisticsButton = new Button();
         statisticsButton.setText("Voir les statistiques de cet emplacement.");
+        statisticsButton.setStyle("-fx-background-color : rgb("+100+","+100+","+255+"); -fx-border-color: blue;");
+
+        statisticsButton.setOnAction(event -> {
+            System.out.println(productButton.getProductHistory());
+            //BESOIN D'OUVRIR UNE FENETRE AVEC LES STATISTIQUES
+        });
 
         Label productType = new Label();
         productType.setText(getProductInfoString(productButton));
 
         Button sellProductButton = new Button();
         sellProductButton.setText("Vendre Produit");
+        sellProductButton.setStyle("-fx-background-color : rgb("+255+","+100+","+100+"); -fx-border-color: red;");
+
 
         sellProductButton.setOnAction(event -> {
             answer = "Delete";

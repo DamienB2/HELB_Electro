@@ -126,6 +126,7 @@ public final class HELBVue {
 
                     ProductButton productButton = new ProductButton();
                     productButtonList.add(productButton);
+
                     gridPane.add(productButton.getButton(), col, row);
 
                     cptButton++;
@@ -195,7 +196,7 @@ public final class HELBVue {
 
                 Button buttonToUpdate = productButton.getButton();
                 buttonToUpdate.setText("");
-                buttonToUpdate.setStyle("-fx-background-color : rgb("+255+","+255+","+255+");");
+                buttonToUpdate.setStyle("-fx-background-color : rgb("+200+","+200+","+200+"); -fx-border-color: black;");
             }
         }
 
