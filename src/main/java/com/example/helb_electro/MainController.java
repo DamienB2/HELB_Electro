@@ -58,9 +58,12 @@ public class MainController implements Observer{
 
         for (ProductButton productButton : helbVue.productButtonList) {
             productButton.getButton().setOnAction(e -> {
-                System.out.println("Je suis le bouton: "+productButton.getAssignedProduct());
-                productButton.setAssignedProduct(null);
-                update();
+
+                String result = helbVue.showProductButtonInfo(productButton);
+                if(result == "Delete"){
+                    productButton.setAssignedProduct(null);
+                    update();
+                }
             });
         }
 

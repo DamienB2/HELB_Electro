@@ -202,8 +202,11 @@ public final class HELBVue {
     }
 
     public boolean clearStorage(){
-        boolean result;
-        return result = ConfirmBox.display("ALERT !", "Do you want to clear the storage ?");
+        return ConfirmBox.display();
 
+    }
+
+    public String showProductButtonInfo(ProductButton productButton){
+        return ProductInfoBox.display(productButton);
     }
 }
