@@ -1,5 +1,6 @@
-package com.example.helb_electro;
+package com.example.helb_electro.Box;
 
+import com.example.helb_electro.ProductButton;
 import com.example.helb_electro.products.Product;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,6 +11,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ProductInfoBox {
+
+    private static final int WINDOW_WIDTH = 300;
+    private static final int WINDOW_HEIGHT = 300;
+    private static final int VBOX_PADDING = 10;
+    private static final int RED_STATBUTTON = 100;
+    private static final int GREEN_STATBUTTON = 100;
+    private static final int BLUE_STATBUTTON = 255;
+    private static final int RED_SELLBUTTON = 255;
+    private static final int GREEN_SELLBUTTON = 100;
+    private static final int BLUE_SELLBUTTON = 100;
 
     private static String productButtonStatus;
     private static String productInfoString;
@@ -22,31 +33,30 @@ public class ProductInfoBox {
         Stage window = new Stage();
 
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Information");
-        window.setWidth(300);
-        window.setHeight(300);
+        window.setTitle("Emplacement: ( ; )");
+        window.setWidth(WINDOW_WIDTH);
+        window.setHeight(WINDOW_HEIGHT);
 
-        Label locationLabel = new Label();
-        locationLabel.setText("Emplacement: ");
 
         Label statusLabel = new Label();
         statusLabel.setText("Status: " + getProductButtonStatus(productButton));
 
         Button statisticsButton = new Button();
         statisticsButton.setText("Voir les statistiques de cet emplacement.");
-        statisticsButton.setStyle("-fx-background-color : rgb("+100+","+100+","+255+"); -fx-border-color: blue;");
+        statisticsButton.setStyle("-fx-background-color : rgb("+RED_STATBUTTON+","+GREEN_STATBUTTON+","+BLUE_STATBUTTON+"); -fx-border-color: blue;");
 
         statisticsButton.setOnAction(event -> {
-            System.out.println(productButton.getProductHistory());
-            //BESOIN D'OUVRIR UNE FENETRE AVEC LES STATISTIQUES
+            StatisticBox.display(productButton.getProductHistory());
         });
 
-        Label productType = new Label();
-        productType.setText(getProductInfoString(productButton));
+        Label productType = new Label("No info");
+        if(productButton.getAssignedProduct() != null){
+            productType.setText(getProductInfoString(productButton));
+        }
 
         Button sellProductButton = new Button();
         sellProductButton.setText("Vendre Produit");
-        sellProductButton.setStyle("-fx-background-color : rgb("+255+","+100+","+100+"); -fx-border-color: red;");
+        sellProductButton.setStyle("-fx-background-color : rgb("+RED_SELLBUTTON+","+GREEN_SELLBUTTON+","+BLUE_SELLBUTTON+"); -fx-border-color: red;");
 
 
         sellProductButton.setOnAction(event -> {
@@ -55,8 +65,8 @@ public class ProductInfoBox {
         });
 
 
-        VBox layout = new VBox(10);
-        layout.getChildren().addAll(locationLabel, statusLabel, statisticsButton, productType,sellProductButton);
+        VBox layout = new VBox(VBOX_PADDING);
+        layout.getChildren().addAll(statusLabel, statisticsButton, productType,sellProductButton);
         layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout);
@@ -66,8 +76,11 @@ public class ProductInfoBox {
         return answer;
     }
 
+
+    //PATCH ICI QUAND LA CLASSE PRODUCT SERA REFAITE
     private static String getProductInfoString(ProductButton productButton) {
 
+        //productInfoString = "";
         Product product = productButton.getAssignedProduct();
 
         productInfoString = "Type Produit: " + product.getClass().getSimpleName() +

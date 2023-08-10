@@ -1,4 +1,4 @@
-package com.example.helb_electro;
+package com.example.helb_electro.Box;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,16 +10,21 @@ import javafx.stage.Stage;
 
 
 public class ConfirmBox {
+
+    private static final int WINDOW_WIDTH = 250;
+    private static final int WINDOW_HEIGHT = 100;
+    private static final int VBOX_PADDING = 20;
     static boolean answer;
     private static String title = "Alert !", message = "Do you want to clear the storage ?";
+
 
     public static boolean display(){
         Stage window = new Stage();
 
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
-        window.setWidth(250);
-        window.setHeight(100);
+        window.setWidth(WINDOW_WIDTH);
+        window.setHeight(WINDOW_HEIGHT);
 
 
         Label label = new Label();
@@ -32,7 +37,7 @@ public class ConfirmBox {
             window.close();
         });
 
-        VBox layout = new VBox(10);
+        VBox layout = new VBox(VBOX_PADDING);
         layout.getChildren().addAll(label, yesButton);
         layout.setAlignment(Pos.CENTER);
 

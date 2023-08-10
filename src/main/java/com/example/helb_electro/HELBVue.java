@@ -1,5 +1,7 @@
 package com.example.helb_electro;
 
+import com.example.helb_electro.Box.ConfirmBox;
+import com.example.helb_electro.Box.ProductInfoBox;
 import com.example.helb_electro.components.Component;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
