@@ -62,7 +62,11 @@ public class ProductInfoBox {
 
         sellProductButton.setOnAction(event -> {
             answer = "Delete";
-            Printer.print(productInfoString);
+
+            if(productButton.getAssignedProduct() != null) {
+                Printer.print(productInfoString);
+            }
+
             window.close();
         });
 

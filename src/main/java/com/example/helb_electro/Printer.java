@@ -17,12 +17,12 @@ public class Printer {
 
 
         try{
-            File ticket = new File("t_" + fileNameFormat.format(now) + ".txt");
+            File ticket = new File("../HELB_Electro/src/" + "t_" + fileNameFormat.format(now) + ".txt");
 
             if(ticket.createNewFile()) {
 
                 try{
-                    FileWriter myWriter = new FileWriter(ticket.getName());
+                    FileWriter myWriter = new FileWriter("../HELB_Electro/src/" +ticket.getName());
 
                     myWriter.write("--------------------\n");
                     myWriter.write("Date: " + dtf.format(now) + "\n");
