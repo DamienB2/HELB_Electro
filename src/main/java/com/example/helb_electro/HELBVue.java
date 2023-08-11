@@ -58,9 +58,9 @@ public final class HELBVue {
         gridPane.setHgap(HgapGrid);
         gridPane.setVgap(HgapGrid);
 
-        addRowToGrid(rowNumber, gridPane);
-        addColToGrid(colNumber, gridPane);
-        addButtonToGrid(colNumber, rowNumber, gridPane);
+        addRowToGrid(rowNumber + 1, gridPane); // + 1 pour pouvoir avoir un place pour le label de la position
+        addColToGrid(colNumber + 1, gridPane); // + 1 pour pouvoir avoir un place pour le label de la position
+        addButtonToGrid(colNumber + 1, rowNumber + 1, gridPane);
 
         AnchorPane leftAnchorPane = new AnchorPane(gridPane);
         AnchorPane.setBottomAnchor(gridPane,0.0);
@@ -68,8 +68,7 @@ public final class HELBVue {
         AnchorPane.setTopAnchor(gridPane,0.0);
         AnchorPane.setRightAnchor(gridPane,0.0);
 
-        Label label = new Label();
-        label.setText("Optimisation");
+        Label label = new Label("Optimisation");
         label.setUnderline(true);
         label.setAlignment(Pos.CENTER);
         label.setPrefWidth(labelWidth);
@@ -123,15 +122,30 @@ public final class HELBVue {
 
         for (int row = 0; row < rowNumber; row++) {
             for (int col = 0; col < colNumber; col++) {
-
                 if(cptButton < nbButton){
 
-                    ProductButton productButton = new ProductButton();
-                    productButtonList.add(productButton);
+                    //Il y aurait 2 possibilités de faire ça. soit comme ici mais pour la partie ou on peut changer le 1 en A serait difficile.
+                    //Une autre manière consisterais en récupérant soit le X ou le Y du productButton adjacent. cela permettrait d'avoir aussi les lettres depuis la même commande.
+                    
+                    if (row == 0 || col == 0) { //Si on remplis la ligne 0 ou la colonne 0 de la grid, on place des labels.
+                        Label positionLabel = new Label();
 
-                    gridPane.add(productButton.getButton(), col, row);
+                        if(col == 0){
+                            positionLabel.setText(String.valueOf(row));
+                        }else{
+                            positionLabel.setText(String.valueOf(col));
+                        }
 
-                    cptButton++;
+                        gridPane.add(positionLabel, col, row);
+
+                    } else { // sinon on place des productButton
+                        ProductButton productButton = new ProductButton(col, row); // col est le X et row est le Y
+                        productButtonList.add(productButton);
+                        gridPane.add(productButton.getButton(), col, row);
+                        cptButton++;
+                    }
+
+
                 }
             }
         }

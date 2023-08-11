@@ -1,5 +1,6 @@
 package com.example.helb_electro.Box;
 
+import com.example.helb_electro.Printer;
 import com.example.helb_electro.ProductButton;
 import com.example.helb_electro.products.Product;
 import javafx.geometry.Pos;
@@ -33,7 +34,7 @@ public class ProductInfoBox {
         Stage window = new Stage();
 
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Emplacement: ( ; )");
+        window.setTitle("Emplacement: ( " + productButton.getPositionX() + " ; " + productButton.getPositionY() + " )");
         window.setWidth(WINDOW_WIDTH);
         window.setHeight(WINDOW_HEIGHT);
 
@@ -61,6 +62,7 @@ public class ProductInfoBox {
 
         sellProductButton.setOnAction(event -> {
             answer = "Delete";
+            Printer.print(productInfoString);
             window.close();
         });
 
@@ -84,7 +86,7 @@ public class ProductInfoBox {
         Product product = productButton.getAssignedProduct();
 
         productInfoString = "Type Produit: " + product.getClass().getSimpleName() +
-                "\nPrix: " + product.getPrice() +
+                "\nPrix: " + product.getPrice() + "euros" +
                 "\nEco-Score: " + product.getEcoScore() +
                 "\nDéfectuosité: " + product.getDefectiveness() +
                 "\nSpécification 1: " + product.getComponentOfProductById(1).getSpecification() +
