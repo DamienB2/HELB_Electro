@@ -23,8 +23,8 @@ public class MainController implements Observer{
     private boolean productCreationInProgress = false;
     private boolean confirmBoxActive = false;
 
-    private final int MAX_COMPONANT = 8;
-    private final int MAX_PRODUCT = 8;
+    private final int MAX_COMPONANT;
+    private final int MAX_PRODUCT;
 
     private String componentTime;
     private String componentName;
@@ -43,6 +43,9 @@ public class MainController implements Observer{
     public MainController(HELBVue vue){
         helbVue = vue;
         parser = new Parser();
+
+        MAX_COMPONANT = helbVue.NUMBER_OF_LABEL;
+        MAX_PRODUCT = helbVue.nbButton;
 
         startTimeline();
 

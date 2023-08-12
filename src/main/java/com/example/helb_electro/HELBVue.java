@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public final class HELBVue {
     private final int rowNumber = 4;
     private final int colNumber = 3;
-    private final static int nbButton = 8;
+    public final static int nbButton = 8;
 
     private final int HgapGrid = 20;
 
@@ -35,7 +35,7 @@ public final class HELBVue {
     private final int rootWidth = 600;
     private final int CBWidth = 150;
     private final int labelWidth = 150;
-    private final int NUMBER_OF_LABEL = 8;
+    public final int NUMBER_OF_LABEL = 8;
 
     private final ArrayList<Label> componentLabelList = new ArrayList<>();
     public final ArrayList<ProductButton> productButtonList = new ArrayList<>();
@@ -126,7 +126,7 @@ public final class HELBVue {
 
                     //Il y aurait 2 possibilités de faire ça. soit comme ici mais pour la partie ou on peut changer le 1 en A serait difficile.
                     //Une autre manière consisterais en récupérant soit le X ou le Y du productButton adjacent. cela permettrait d'avoir aussi les lettres depuis la même commande.
-                    
+
                     if (row == 0 || col == 0) { //Si on remplis la ligne 0 ou la colonne 0 de la grid, on place des labels.
                         Label positionLabel = new Label();
 
