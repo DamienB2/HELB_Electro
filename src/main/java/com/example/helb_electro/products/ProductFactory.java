@@ -11,16 +11,16 @@ public class ProductFactory {
 
         switch (productName){
             case("Robot"):
-                return new Robot(componentNeededForTheNewProductList.get(0), componentNeededForTheNewProductList.get(1));
+                return new Robot(componentNeededForTheNewProductList);
 
             case("Alarm"):
-                return new Alarm(componentNeededForTheNewProductList.get(0), componentNeededForTheNewProductList.get(1));
+                return new Alarm(componentNeededForTheNewProductList);
 
             case("RemoteCar"):
-                return new RemoteCar(componentNeededForTheNewProductList.get(0), componentNeededForTheNewProductList.get(1));
+                return new RemoteCar(componentNeededForTheNewProductList);
 
             case("Drone"):
-                return new Drone(componentNeededForTheNewProductList.get(0), componentNeededForTheNewProductList.get(1), componentNeededForTheNewProductList.get(2));
+                return new Drone(componentNeededForTheNewProductList);
         }
         return null;
     }

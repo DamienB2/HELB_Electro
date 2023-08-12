@@ -2,49 +2,48 @@ package com.example.helb_electro.products;
 
 import com.example.helb_electro.components.Component;
 
+import java.util.ArrayList;
+
 public abstract class Product {
 
     private String ecoScore;
     private int fabricationTime;
     private int price;
     private int[] RGBTab = {0, 0, 0}; //default color value
-    private Component component1, component2, component3;
+    private ArrayList<Component> componentOfProductList = new ArrayList<>();
     private boolean defectiveness = false;
 
-    //Pas optimiser car si nouveau composant pose problème
-    public Product(Component component1, Component component2){
-        this.component1 = component1;
-        this.component2 = component2;
-        this.RGBTab = setRGBColor(component1.getRGBColor(), component2.getRGBColor());
+
+    public Product(ArrayList<Component> componentNeededForTheNewProductList) {
+        this.componentOfProductList = componentNeededForTheNewProductList;
+        this.RGBTab = setRGBColor(componentOfProductList);
         this.setDefectiveness();
     }
 
-    public Product(Component component1, Component component2, Component component3) {
-        this.component1 = component1;
-        this.component2 = component2;
-        this.component3 = component3;
-        this.RGBTab = setRGBColor(component1.getRGBColor(), component2.getRGBColor());
-        this.setDefectiveness();
-    }
 
     private void setDefectiveness(){
-        if((component1.getDefectiveness() == true) || (component2.getDefectiveness() == true)){
-            defectiveness = true;
-        }else{
-            defectiveness = false;
+        for (Component component: componentOfProductList) {
+            if(component.getDefectiveness()){
+                defectiveness = true;
+            }
         }
     }
     public boolean getDefectiveness(){
         return defectiveness;
     }
 
-    // /!\  utilisation de tableau serait plus utile car lors de 3 composants ne marche pas
-    private int[] setRGBColor(int[] rgbColorComponent1, int[] rgbColorComponent2) {
 
-        //Additionne les couleurs des 2 composants pour faire la couleur du produit.
-        RGBTab[0] = rgbColorComponent1[0] + rgbColorComponent2[0];
-        RGBTab[1] = rgbColorComponent1[1] + rgbColorComponent2[1];
-        RGBTab[2] = rgbColorComponent1[2] + rgbColorComponent2[2];
+
+    private int[] setRGBColor(ArrayList<Component> componentOfProductList) {
+
+        for (Component component: componentOfProductList) {
+            int[] componentRGBTab = component.getRGBColor();
+
+            for (int i = 0; i < componentRGBTab.length; i++) {
+                RGBTab[i] = RGBTab[i] + componentRGBTab[i];
+            }
+        }
+
 
         //effectue une vérification après l'addition des couleurs des composants pour voir si la somme est plus grande que 255.
         for (int i = 0; i < RGBTab.length; i++) {
@@ -59,12 +58,14 @@ public abstract class Product {
         return RGBTab;
     }
 
+
     public void setPrice(int componentPrice){
         price = componentPrice;
     }
     public int getPrice(){
         return price;
     }
+
 
     public void setEcoScore(String componentEcoScore){
         ecoScore = componentEcoScore;
@@ -73,6 +74,7 @@ public abstract class Product {
         return ecoScore;
     }
 
+
     public void setFabricationTime(int componentFabricationTime){
         fabricationTime = componentFabricationTime;
     }
@@ -80,25 +82,15 @@ public abstract class Product {
         return fabricationTime;
     }
 
-    public Component getComponentOfProductById(int id){
-        Component componentToReturn = null;
 
-        switch (id){
-            case 1:
-                componentToReturn =  component1;
-                break;
-            case 2:
-                componentToReturn =  component2;
-                break;
-            case 3:
-                componentToReturn =  component3;
-                break;
+    public Component getComponentOfProductById(int id) {
+        if(id < componentOfProductList.size()){
+            return componentOfProductList.get(id);
+        }else{
+            return null;
         }
 
-        return componentToReturn;
     }
-
-
 
 
 }

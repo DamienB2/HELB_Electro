@@ -12,13 +12,36 @@ import java.util.ArrayList;
 public class Strategy{
 
     private IStrategy strategy = new TimeStrategy();
+
     private ArrayList<Product> allProductList = new ArrayList<>();
+    private ArrayList<Component> componentsForRobot = new ArrayList<>();
+    private ArrayList<Component> componentsForAlarm = new ArrayList<>();
+    private ArrayList<Component> componentsForRemoteCar = new ArrayList<>();
+    private ArrayList<Component> componentsForDrone = new ArrayList<>();
+
+
+    private Sensor sensor = new Sensor("100m","d0","noir");
+    private Motor motor = new Motor("100W","d0");
+    private Battery battery = new Battery("100%","d0");
+
 
     public Strategy(){
-        allProductList.add(new Robot(new Sensor("100m","d0","noir"), new Motor("100W","d0")));
-        allProductList.add(new Alarm(new Battery("100%","d0"),new Sensor("100m","d0","noir")));
-        allProductList.add(new RemoteCar(new Battery("100%","d0"),new Motor("100W","d0")));
-        allProductList.add(new Drone(new Battery("100%","d0"),new Motor("100W","d0"),new Sensor("100m","d0","noir")));
+        componentsForRobot.add(sensor);
+        componentsForRobot.add(motor);
+        allProductList.add(new Robot(componentsForRobot));
+
+        componentsForAlarm.add(sensor);
+        componentsForAlarm.add(battery);
+        allProductList.add(new Alarm(componentsForAlarm));
+
+        componentsForRemoteCar.add(battery);
+        componentsForRemoteCar.add(motor);
+        allProductList.add(new RemoteCar(componentsForRemoteCar));
+
+        componentsForDrone.add(sensor);
+        componentsForDrone.add(motor);
+        componentsForDrone.add(battery);
+        allProductList.add(new Drone(componentsForDrone));
 
     }
 
@@ -55,14 +78,14 @@ public class Strategy{
             idOfComponentForTheNewProductList.clear();
 
             //recherche une correspondance du premier composant du produit dans la liste de composant.
-            id = seekForComponent(product.getComponentOfProductById(1),componentsList);
+            id = seekForComponent(product.getComponentOfProductById(0),componentsList);
 
             //Si correspondance, ajout de la position du composant dans la liste à une liste de position
             if(id != -1){
                 idOfComponentForTheNewProductList.add(String.valueOf(id));
 
                 //recherche une correspondance du deuxième composant du produit dans la liste de composant.
-                id = seekForComponent(product.getComponentOfProductById(2),componentsList);
+                id = seekForComponent(product.getComponentOfProductById(1),componentsList);
 
                 //Si correspondance, ajout de la position du composant dans la liste à une liste de position
                 if(id != -1){
@@ -70,7 +93,7 @@ public class Strategy{
 
                     //check si le produit est un drone. si oui, recherche une troisième correspondance.
                     if(product.getClass().getSimpleName().equals("Drone")){
-                        id = seekForComponent(product.getComponentOfProductById(3),componentsList);
+                        id = seekForComponent(product.getComponentOfProductById(2),componentsList);
 
                         if(id != -1){
                             idOfComponentForTheNewProductList.add(String.valueOf(id));

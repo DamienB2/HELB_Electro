@@ -83,22 +83,22 @@ public class ProductInfoBox {
     }
 
 
-    //PATCH ICI QUAND LA CLASSE PRODUCT SERA REFAITE
     private static String getProductInfoString(ProductButton productButton) {
+        int cpt = 0;
 
-        //productInfoString = "";
         Product product = productButton.getAssignedProduct();
 
         productInfoString = "Type Produit: " + product.getClass().getSimpleName() +
-                "\nPrix: " + product.getPrice() + "euros" +
+                "\nPrix: " + product.getPrice() + "€" +
                 "\nEco-Score: " + product.getEcoScore() +
-                "\nDéfectuosité: " + product.getDefectiveness() +
-                "\nSpécification 1: " + product.getComponentOfProductById(1).getSpecification() +
-                "\nSpécification 2: " + product.getComponentOfProductById(2).getSpecification();
-        //la partie spécification va changer car la forme de la classe product va aussi changer. Normalement on dervait recevoir une liste contenant tout les composants.
+                "\nDéfectuosité: " + product.getDefectiveness();
+
+        while(product.getComponentOfProductById(cpt) != null) {
+            productInfoString = productInfoString + "\nSpécification " + (cpt+1) + ": " + product.getComponentOfProductById(cpt).getSpecification();
+            cpt++;
+        }
+
         return productInfoString;
-
-
     }
 
     private static String getProductButtonStatus(ProductButton productButton) {

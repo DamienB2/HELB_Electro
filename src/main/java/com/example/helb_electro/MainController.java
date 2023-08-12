@@ -253,6 +253,13 @@ public class MainController implements Observer{
     }
 
     private void deleteComponantFromComponentList(ArrayList<String> infoList) {
+        //Problème lors de la création d'un drone. si la liste n'est pas pleine, crash car la taille de la liste de composant varie dès que l'on retire un composant.
+        //Si pour créer un drone il faut les composants situés en 0 2 7. lorsque l'on va supprimer le 0, le composant située en position 7 va descendre en position 6.
+        //La position 7 sera alors vide et cela fera crash le programme
+
+        //piste de solution, supprimer du plus grand vers le plus petit. comme ça, plus de problème ???
+
+
         //supprime les composants servant à la création d'un produit de la liste
         for (int i = 0; i < infoList.size() - 1; i++) {
             ComponentList.remove(Integer.parseInt(infoList.get(i)));
