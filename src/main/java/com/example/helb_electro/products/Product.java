@@ -10,6 +10,7 @@ public abstract class Product {
     private int fabricationTime;
     private int price;
     private int[] RGBTab = {0, 0, 0}; //default color value
+    private final int MAX_COLOR_VALUE = 255;
     private ArrayList<Component> componentOfProductList = new ArrayList<>();
     private boolean defectiveness = false;
 
@@ -47,8 +48,8 @@ public abstract class Product {
 
         //effectue une vérification après l'addition des couleurs des composants pour voir si la somme est plus grande que 255.
         for (int i = 0; i < RGBTab.length; i++) {
-            if(RGBTab[i]> 255){
-                RGBTab[i] = 255;
+            if(RGBTab[i]> MAX_COLOR_VALUE){
+                RGBTab[i] = MAX_COLOR_VALUE;
             }
         }
 

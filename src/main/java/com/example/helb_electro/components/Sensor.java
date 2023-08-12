@@ -8,8 +8,4 @@ public class Sensor extends Component{
         this.setRGBColor(0, 255, 0);
         this.componentColor = componentColor;
     }
-
-    public String getComponentColor(){
-        return componentColor;
-    }
 }

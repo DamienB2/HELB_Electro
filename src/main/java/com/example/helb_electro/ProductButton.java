@@ -1,7 +1,6 @@
 package com.example.helb_electro;
 
 import com.example.helb_electro.products.Product;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 
 import java.util.ArrayList;
