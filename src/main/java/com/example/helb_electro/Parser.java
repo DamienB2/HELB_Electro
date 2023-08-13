@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class Parser {
-    private String file = "../HELB_Electro/src/main/java/com/example/helb_electro/data.txt"; // REMPLACER DATATA PAR DATA
+    private String file = "src/main/java/com/example/helb_electro/data.txt";
     private List<String[]> ComponentList = new ArrayList<>();
 
     public Parser(){
